@@ -34,6 +34,16 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println(e);
                 }
 
+                String bar;
+                HttpPostRequest foo = new HttpPostRequest();
+                try {
+                    bar = foo.execute("https://dearestdaringapplescript--rounak.repl.co/register", "/register").get();
+                    System.out.println("-------");
+                    System.out.println(bar);
+                } catch(Exception e) {
+                    System.out.println(e);
+                }
+
                 Intent registerIntent = new Intent(getApplicationContext(), Register.class);
 
                 registerIntent.putExtra("RegisterMessage",registerPage);
