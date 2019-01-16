@@ -39,67 +39,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                // run the network connection activity in a new thread
-//                new Thread(new Runnable() {
-//
-//                    @Override
-//                    public void run() {
-//
-//                        try {
-//                            outputOfGETRequest = getFromURL("https://www.google.com");
-//                            System.out.println(outputOfGETRequest.toString());
-//                        } catch (Exception e) {
-//                            System.out.println("noooooooooooooo");
-//                        }
-//
-//                    }
-//
-//                }).start();
 
                 String homepageURL = "https://www.google.com";
                 String homePage = "Hello Google";
 
                 HttpGetRequest foo = new HttpGetRequest();
-                foo.execute(homepageURL);
+                try {
+                    homePage = foo.execute(homepageURL).get();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
 
                 Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
 
-//                // run the network connection activity in a new thread
-//                new Thread(new Runnable() {
-//
-//                    // initiate the okHttpClient
-//                    OkHttpClient client = new OkHttpClient();
-//
-//                    // function to get data from URL
-//                    String getFromURL(String url) throws IOException {
-//                        Request request = new Request.Builder()
-//                                .url(url)
-//                                .build();
-//
-//                        try (Response response = client.newCall(request).execute()) {
-//                            return response.body().string();
-//                        } catch (Exception e) {
-//                            System.out.println(e);
-//                            return "Error connecting to MessItUp network";
-//                        }
-//                    }
-//
-//                    String outputOfGETRequest;
-//
-//                    @Override
-//                    public void run() {
-//
-//                        try {
-//                            outputOfGETRequest = getFromURL("https://www.google.com");
-//                            System.out.println(outputOfGETRequest.toString());
-//                        } catch (Exception e) {
-//                            System.out.println("noooooooooooooo");
-//                        }
-//
-//                    }
-//
-//                }).start();
-
+                intent.putExtra("Text",homePage);
+                startActivity(intent);
+                txt.setText("Button presses!");
 
 
             }
