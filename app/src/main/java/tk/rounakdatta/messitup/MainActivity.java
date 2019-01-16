@@ -7,40 +7,51 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import android.os.AsyncTask;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-
 public class MainActivity extends AppCompatActivity {
-    Button btn;
-    TextView txt;
+    Button btnHome, registerButton, loginButton;
+    TextView txtHome, registerMessage, loginText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn = findViewById(R.id.btnSubmit);
-        txt = findViewById(R.id.txtDisplay);
-        btn.setOnClickListener(new View.OnClickListener() {
+
+        // register activity
+        registerButton = findViewById(R.id.registerButton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                String mainServer = "https://dearestdaringapplescript--rounak.repl.co";
+                String registerPageURL = mainServer + "/register";
 
-                String homepageURL = "https://www.google.com";
+                String registerPage = "Loading...";
+
+                HttpGetRequest regMe = new HttpGetRequest();
+                try {
+                    registerPage = regMe.execute(registerPageURL).get();
+                } catch(Exception e) {
+                    System.out.println(e);
+                }
+
+                Intent registerIntent = new Intent(getApplicationContext(), Register.class);
+
+                registerIntent.putExtra("RegisterMessage",registerPage);
+                startActivity(registerIntent);
+
+            }
+            });
+
+        // home activity
+        btnHome = findViewById(R.id.btnHome);
+        txtHome = findViewById(R.id.txtDisplay);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String mainServer = "https://dearestdaringapplescript--rounak.repl.co";
+                String homepageURL = mainServer + "/";
+
                 String homePage = "Hello Google";
 
                 HttpGetRequest foo = new HttpGetRequest();
@@ -53,13 +64,14 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
 
-                intent.putExtra("Text",homePage);
+                intent.putExtra("WelcomeHome",homePage);
                 startActivity(intent);
-                txt.setText("Button presses!");
+                txtHome.setText("Button presses!");
 
 
             }
         });
+
     }
 
 }
