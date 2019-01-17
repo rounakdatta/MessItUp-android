@@ -1,14 +1,18 @@
 package tk.rounakdatta.messitup;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
-    Button btnHome, registerButton, loginButton;
+    Button btnHome, registerButton, logoutButton, registerSubmit, loginButton;
     TextView txtHome, registerMessage, loginText;
 
     @Override
@@ -16,12 +20,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final SharedPreferences wowCookies = getApplicationContext().getSharedPreferences("wowCookies", 0);
+        final SharedPreferences.Editor cookidator = wowCookies.edit();
+
         // register activity
         registerButton = findViewById(R.id.registerButton);
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                // goto register activity
+                Intent registerIntent = new Intent(getApplicationContext(), Register.class);
+                registerIntent.putExtra("RegisterMessage", "Please register");
+                startActivity(registerIntent);
+
+
+                /*
+                // register GET API
                 String mainServer = "https://dearestdaringapplescript--rounak.repl.co";
                 String registerPageURL = mainServer + "/register";
 
@@ -34,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println(e);
                 }
 
+                // register POST API
                 String bar;
                 HttpPostRequest foo = new HttpPostRequest();
                 try {
@@ -49,24 +65,55 @@ public class MainActivity extends AppCompatActivity {
                 registerIntent.putExtra("RegisterMessage",registerPage);
                 startActivity(registerIntent);
 
+                */
+
             }
             });
 
-        // home activity
-        btnHome = findViewById(R.id.btnHome);
-        txtHome = findViewById(R.id.txtDisplay);
-        btnHome.setOnClickListener(new View.OnClickListener() {
+        // logout activity
+        logoutButton = findViewById(R.id.logoutButton);
+        logoutButton.setOnClickListener(new OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
                 String mainServer = "https://dearestdaringapplescript--rounak.repl.co";
-                String homepageURL = mainServer + "/";
+                String logoutURL = mainServer + "/logout";
 
-                String homePage = "Hello Google";
-
-                HttpGetRequest foo = new HttpGetRequest();
+                HttpGetRequest regMe = new HttpGetRequest();
                 try {
-                    homePage = foo.execute(homepageURL).get();
+                    regMe.execute(logoutURL).get();
+                    cookidator.remove("uid");
+                    cookidator.remove("email");
+                    cookidator.putBoolean("loggedIn", false);
+
+                    cookidator.commit();
+
+                } catch(Exception e) {
+                    System.out.println(e);
+                }
+
+            }
+        });
+
+        // userdashboard activity
+        btnHome = findViewById(R.id.btnHome);
+        txtHome = findViewById(R.id.txtDisplay);
+        btnHome.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String mainServer = "https://dearestdaringapplescript--rounak.repl.co";
+                String homepageURL = mainServer + "/userdashboard";
+
+                String homePage = "Loading...";
+
+                HttpPostRequest foo = new HttpPostRequest();
+                try {
+
+                    String userId = wowCookies.getString("uid", "null");
+
+                    homePage = foo.execute(homepageURL, "uid=" + userId).get();
                 } catch (Exception e) {
                     System.out.println(e);
                 }

@@ -20,7 +20,7 @@ public class HttpPostRequest extends AsyncTask <String,String,String> {
         try {
 
             URL url = new URL(params[0]);
-            String urlParameters = "email=hello%40srmuniv.ac.in&pwd=helloworld12345";
+            String urlParameters = params[1];
             byte[] postDataBytes = urlParameters.getBytes("UTF-8");
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
