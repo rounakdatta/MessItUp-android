@@ -1,10 +1,13 @@
 package tk.rounakdatta.messitup;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -48,18 +51,34 @@ public class Register extends AppCompatActivity {
                     cookidator.putBoolean("loggedIn", true);
                     cookidator.commit();
 
-                    System.out.println("-------");
                     System.out.println(bar);
+
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, "Registration success!", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    toast = Toast.makeText(context, "Logging you in!", Toast.LENGTH_SHORT);
+                    toast.show();
+
+                    Intent data = new Intent();
+                    data.putExtra("registerSuccess", "true");
+                    setResult(RESULT_OK, data);
+                    finish();
+
                 } catch(Exception e) {
                     System.out.println(e);
+
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, "An error occurred!", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
 
             }
         });
         
 
-        Bundle extra= getIntent().getExtras();
-        String s=extra.getString("RegisterMessage");
+        Bundle extra = getIntent().getExtras();
+        String s = extra.getString("RegisterMessage");
         tv=findViewById(R.id.registerDisplay);
         tv.setText(s);
     }

@@ -1,19 +1,36 @@
 package tk.rounakdatta.messitup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     Button btnHome, registerButton, logoutButton, registerSubmit, loginButton;
     TextView txtHome, registerMessage, loginText;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (data.getStringExtra("registerSuccess").equals("true")) {
+            findViewById(R.id.registerButton).setVisibility(View.GONE);
+            findViewById(R.id.loginButton).setVisibility(View.GONE);
+            findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.registerButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.loginButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.logoutButton).setVisibility(View.GONE);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,43 +49,11 @@ public class MainActivity extends AppCompatActivity {
                 // goto register activity
                 Intent registerIntent = new Intent(getApplicationContext(), Register.class);
                 registerIntent.putExtra("RegisterMessage", "Please register");
-                startActivity(registerIntent);
-
-
-                /*
-                // register GET API
-                String mainServer = "https://dearestdaringapplescript--rounak.repl.co";
-                String registerPageURL = mainServer + "/register";
-
-                String registerPage = "Loading...";
-
-                HttpGetRequest regMe = new HttpGetRequest();
-                try {
-                    registerPage = regMe.execute(registerPageURL).get();
-                } catch(Exception e) {
-                    System.out.println(e);
-                }
-
-                // register POST API
-                String bar;
-                HttpPostRequest foo = new HttpPostRequest();
-                try {
-                    bar = foo.execute("https://dearestdaringapplescript--rounak.repl.co/register", "/register").get();
-                    System.out.println("-------");
-                    System.out.println(bar);
-                } catch(Exception e) {
-                    System.out.println(e);
-                }
-
-                Intent registerIntent = new Intent(getApplicationContext(), Register.class);
-
-                registerIntent.putExtra("RegisterMessage",registerPage);
-                startActivity(registerIntent);
-
-                */
+                startActivityForResult(registerIntent, 1000);
 
             }
-            });
+
+        });
 
 
         // login activity
@@ -80,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 // goto login activity
                 Intent loginIntent = new Intent(getApplicationContext(), Login.class);
                 loginIntent.putExtra("LoginMessage", "Please login");
-                startActivity(loginIntent);
+                startActivityForResult(loginIntent, 2000);
 
             }
         });
@@ -104,9 +89,23 @@ public class MainActivity extends AppCompatActivity {
 
                     cookidator.commit();
 
+                    findViewById(R.id.registerButton).setVisibility(View.VISIBLE);
+                    findViewById(R.id.loginButton).setVisibility(View.VISIBLE);
+                    findViewById(R.id.logoutButton).setVisibility(View.GONE);
+
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, "Logged you out!", Toast.LENGTH_SHORT);
+                    toast.show();
+
                 } catch(Exception e) {
                     System.out.println(e);
+
+                    Context context = getApplicationContext();
+                    Toast toast = Toast.makeText(context, "Error logging out!!", Toast.LENGTH_SHORT);
+                    toast.show();
+
                 }
+
 
             }
         });
@@ -143,6 +142,29 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+//        // listener to keep track of logged in or not
+//        SharedPreferences.OnSharedPreferenceChangeListener logListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+//            public void onSharedPreferenceChanged(SharedPreferences mainCookies, String key) {
+//                String userId = mainCookies.getString("uid", "null");
+//
+//                System.out.println("----------------");
+//                System.out.println(userId);
+//
+//                if (userId.length() == 28) {
+//                    registerButton.setVisibility(View.GONE);
+//                    loginButton.setVisibility(View.GONE);
+//                    System.out.println("Hide them all");
+//                } else {
+//                    registerButton.setVisibility(View.VISIBLE);
+//                    loginButton.setVisibility(View.VISIBLE);
+//                    System.out.println("Show them all");
+//                }
+//            }
+//        };
+//
+//        wowCookies.registerOnSharedPreferenceChangeListener(logListener);
 
     }
 
