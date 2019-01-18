@@ -70,6 +70,21 @@ public class MainActivity extends AppCompatActivity {
             }
             });
 
+
+        // login activity
+        loginButton = findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // goto login activity
+                Intent loginIntent = new Intent(getApplicationContext(), Login.class);
+                loginIntent.putExtra("LoginMessage", "Please login");
+                startActivity(loginIntent);
+
+            }
+        });
+
         // logout activity
         logoutButton = findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new OnClickListener() {
