@@ -12,9 +12,12 @@ public class SecondActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        Bundle extra= getIntent().getExtras();
-        String s=extra.getString("WelcomeHome");
-        tv=findViewById(R.id.textView);
+
+        // this is the dashboard activity
+
+        Bundle extra = getIntent().getExtras();
+        String s = extra.getString("WelcomeHome");
+        tv = findViewById(R.id.textView);
         tv.setText(s);
     }
 }

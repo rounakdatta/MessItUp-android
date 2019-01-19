@@ -6,10 +6,19 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Register extends AppCompatActivity {
     TextView tv;
@@ -21,6 +30,67 @@ public class Register extends AppCompatActivity {
 
         final SharedPreferences wowCookies = getApplicationContext().getSharedPreferences("wowCookies", 0);
         final SharedPreferences.Editor cookidator = wowCookies.edit();
+
+        //String[] foobar = new String[100];
+
+        RadioGroup hostelGroup = findViewById(R.id.hostelGroup);
+        hostelGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton checkedRadioButton = radioGroup.findViewById(i);
+
+                boolean isChecked = checkedRadioButton.isChecked();
+                if (isChecked) {
+                    String maleOrFemale = checkedRadioButton.getText().toString();
+                    System.out.println(maleOrFemale);
+                    if (maleOrFemale.equals("Male") || maleOrFemale.equals("Female")) {
+
+                        String mainServer = "https://dearestdaringapplescript--rounak.repl.co";
+
+                        String uri;
+                        if (maleOrFemale.equals("Male")) {
+                            uri = mainServer + "/get/hostel/boys";
+                        } else {
+                            uri = mainServer + "/get/hostel/girls";
+                        }
+
+                        HttpGetRequest hdhttp = new HttpGetRequest();
+                        try {
+                            String hostelData = hdhttp.execute(uri).get();
+                            JSONArray hostelArray = new JSONArray(hostelData);
+
+                            List<String> hostelList = new ArrayList<String>();
+
+                            for (int j = 0; j < hostelArray.length(); j++) {
+                                hostelList.add(hostelArray.getJSONObject(j).getString("hostelName"));
+                            }
+
+                            System.out.println(hostelList);
+
+                            // populate the hostel spinner
+                            Context context = getApplicationContext();
+
+                            Spinner hostelSpinner = (Spinner) findViewById(R.id.hostelSelect);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, hostelList);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            hostelSpinner.setAdapter(adapter);
+
+
+                        } catch (Exception e) {
+                            System.out.println(e);
+
+                            Context context = getApplicationContext();
+                            Toast toast = Toast.makeText(context, "Error fetching hostel data!", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+
+                    }
+                }
+            }
+        });
+
+
+
 
         // register new user and goto dashboard
         View registerSubmit = findViewById(R.id.registerSubmit);
