@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,8 +32,7 @@ public class Register extends AppCompatActivity {
         final SharedPreferences wowCookies = getApplicationContext().getSharedPreferences("wowCookies", 0);
         final SharedPreferences.Editor cookidator = wowCookies.edit();
 
-        //String[] foobar = new String[100];
-
+        // show appropriate hostel on selection
         RadioGroup hostelGroup = findViewById(R.id.hostelGroup);
         hostelGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -59,13 +59,14 @@ public class Register extends AppCompatActivity {
                             String hostelData = hdhttp.execute(uri).get();
                             JSONArray hostelArray = new JSONArray(hostelData);
 
-                            List<String> hostelList = new ArrayList<String>();
+                            final List<String> hostelList = new ArrayList<String>();
+                            final List<String> messList = new ArrayList<String>();
 
                             for (int j = 0; j < hostelArray.length(); j++) {
                                 hostelList.add(hostelArray.getJSONObject(j).getString("hostelName"));
+                                messList.add(hostelArray.getJSONObject(j).getString("messName"));
                             }
 
-                            System.out.println(hostelList);
 
                             // populate the hostel spinner
                             Context context = getApplicationContext();
@@ -74,6 +75,19 @@ public class Register extends AppCompatActivity {
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, hostelList);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             hostelSpinner.setAdapter(adapter);
+
+                            hostelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                    TextView messName = findViewById(R.id.messName);
+                                    messName.setText(messList.get(i));
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                }
+                            });
 
 
                         } catch (Exception e) {
@@ -89,8 +103,12 @@ public class Register extends AppCompatActivity {
             }
         });
 
-
-
+        // display the study years
+        String[] studyYears = new String[] {"I", "II", "III", "IV", "Other"};
+        Spinner studySpinner = (Spinner) findViewById(R.id.studyYear);
+        ArrayAdapter<String> studyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, studyYears);
+        studyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        studySpinner.setAdapter(studyAdapter);
 
         // register new user and goto dashboard
         View registerSubmit = findViewById(R.id.registerSubmit);
@@ -106,7 +124,19 @@ public class Register extends AppCompatActivity {
                 TextView userPasswordTextView = (TextView) findViewById(R.id.registerPassword);
                 String userPassword = userPasswordTextView.getText().toString();
 
-                String registerRequest = "email=" + userEmail + "&pwd=" + userPassword;
+                TextView studentNameTextView = findViewById(R.id.studentName);
+                String studentName = studentNameTextView.getText().toString();
+
+                Spinner hostelNameSpinner = findViewById(R.id.hostelSelect);
+                String hostelName = hostelNameSpinner.getSelectedItem().toString();
+
+                TextView messNameTextView = findViewById(R.id.messName);
+                String messName = messNameTextView.getText().toString();
+
+                Spinner studyYearSpinner = findViewById(R.id.studyYear);
+                String studyYear = studyYearSpinner.getSelectedItem().toString();
+
+                String registerRequest = "email=" + userEmail + "&pwd=" + userPassword + "&studentName=" + studentName + "&hostelName=" + hostelName + "&messName=" + messName + "&studyYear=" + studyYear;
 
                 String bar;
                 HttpPostRequest foo = new HttpPostRequest();

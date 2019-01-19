@@ -12,7 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login"></activity>
+        <activity
+            android:name=".MessMenu"
+            android:label="@string/title_activity_mess_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Login" />
         <activity android:name=".Register" />
         <activity android:name=".SecondActivity" />
         <activity android:name=".MainActivity">

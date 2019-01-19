@@ -110,6 +110,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // dish menu activity
+        Button todayMenu = findViewById(R.id.todayMenu);
+        todayMenu.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent menuIntent = new Intent(getApplicationContext(), MessMenu.class);
+                startActivity(menuIntent);
+
+            }
+        });
+
         // userdashboard activity
         btnHome = findViewById(R.id.btnHome);
         txtHome = findViewById(R.id.txtDisplay);
@@ -144,27 +156,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-//        // listener to keep track of logged in or not
-//        SharedPreferences.OnSharedPreferenceChangeListener logListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-//            public void onSharedPreferenceChanged(SharedPreferences mainCookies, String key) {
-//                String userId = mainCookies.getString("uid", "null");
-//
-//                System.out.println("----------------");
-//                System.out.println(userId);
-//
-//                if (userId.length() == 28) {
-//                    registerButton.setVisibility(View.GONE);
-//                    loginButton.setVisibility(View.GONE);
-//                    System.out.println("Hide them all");
-//                } else {
-//                    registerButton.setVisibility(View.VISIBLE);
-//                    loginButton.setVisibility(View.VISIBLE);
-//                    System.out.println("Show them all");
-//                }
-//            }
-//        };
-//
-//        wowCookies.registerOnSharedPreferenceChangeListener(logListener);
+
 
     }
 
