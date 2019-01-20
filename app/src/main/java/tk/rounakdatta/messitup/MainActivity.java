@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent menuIntent = new Intent(getApplicationContext(), MessMenu.class);
+                Intent menuIntent = new Intent(getApplicationContext(), MessTable.class);
                 startActivity(menuIntent);
 
             }
