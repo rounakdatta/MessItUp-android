@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnHome, registerButton, logoutButton, registerSubmit, loginButton;
     TextView txtHome, registerMessage, loginText;
 
+    String uid;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -39,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
 
         final SharedPreferences wowCookies = getApplicationContext().getSharedPreferences("wowCookies", 0);
         final SharedPreferences.Editor cookidator = wowCookies.edit();
+
+        uid = wowCookies.getString("uid", "null");
+        if (uid.length() == 28) {
+            findViewById(R.id.registerButton).setVisibility(View.GONE);
+            findViewById(R.id.loginButton).setVisibility(View.GONE);
+            findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.registerButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.loginButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.logoutButton).setVisibility(View.GONE);
+        }
 
         // register activity
         registerButton = findViewById(R.id.registerButton);
