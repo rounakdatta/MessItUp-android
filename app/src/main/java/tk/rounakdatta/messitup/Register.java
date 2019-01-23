@@ -22,6 +22,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Register extends AppCompatActivity {
+
+
+    @Override
+    public void onBackPressed() {
+        Context context = getApplicationContext();
+        Toast toast = Toast.makeText(context, "Completing this action is compulsory!", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
     TextView tv;
 
     @Override

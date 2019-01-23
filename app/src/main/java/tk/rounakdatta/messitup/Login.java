@@ -12,6 +12,15 @@ import android.widget.Toast;
 import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
+
+
+    @Override
+    public void onBackPressed() {
+        Context context = getApplicationContext();
+        Toast toast = Toast.makeText(context, "Completing this action is compulsory!", Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
     TextView tv;
 
     @Override

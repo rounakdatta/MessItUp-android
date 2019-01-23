@@ -27,10 +27,12 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.registerButton).setVisibility(View.GONE);
             findViewById(R.id.loginButton).setVisibility(View.GONE);
             findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.btnHome).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.registerButton).setVisibility(View.VISIBLE);
             findViewById(R.id.loginButton).setVisibility(View.VISIBLE);
             findViewById(R.id.logoutButton).setVisibility(View.GONE);
+            findViewById(R.id.btnHome).setVisibility(View.GONE);
         }
     }
 
@@ -47,10 +49,12 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.registerButton).setVisibility(View.GONE);
             findViewById(R.id.loginButton).setVisibility(View.GONE);
             findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.btnHome).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.registerButton).setVisibility(View.VISIBLE);
             findViewById(R.id.loginButton).setVisibility(View.VISIBLE);
             findViewById(R.id.logoutButton).setVisibility(View.GONE);
+            findViewById(R.id.btnHome).setVisibility(View.GONE);
         }
 
         // register activity
@@ -105,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.registerButton).setVisibility(View.VISIBLE);
                     findViewById(R.id.loginButton).setVisibility(View.VISIBLE);
                     findViewById(R.id.logoutButton).setVisibility(View.GONE);
+                    findViewById(R.id.btnHome).setVisibility(View.GONE);
 
                     Context context = getApplicationContext();
                     Toast toast = Toast.makeText(context, "Logged you out!", Toast.LENGTH_SHORT);

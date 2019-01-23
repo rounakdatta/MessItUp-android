@@ -8,6 +8,7 @@
     <string name="text_expanded">Expanded</string>
     <string name="text_collapsed">Collapsed</string>
 
+
     <string-array name="string_array_alcohol">
         <item>Vodka</item>
         <item>Rum</item>

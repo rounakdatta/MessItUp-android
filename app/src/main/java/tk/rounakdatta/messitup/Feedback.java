@@ -1,5 +1,6 @@
 package tk.rounakdatta.messitup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.Rating;
 import android.support.v7.app.AppCompatActivity;
@@ -8,8 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Feedback extends AppCompatActivity {
+
+    @Override
+    public void onBackPressed() {
+        Context context = getApplicationContext();
+        Toast toast = Toast.makeText(context, "Feedback is compulsory!", Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
