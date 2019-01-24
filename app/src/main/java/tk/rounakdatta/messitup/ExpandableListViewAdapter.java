@@ -2,6 +2,7 @@ package tk.rounakdatta.messitup;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     // child data
     private HashMap<String, List<String>> listDataChild;
 
-    public ExpandableListViewAdapter(Context context, List<String> listDataGroup,
+    public ExpandableListViewAdapter(FragmentActivity context, List<String> listDataGroup,
                                      HashMap<String, List<String>> listChildData) {
         this.context = context;
         this.listDataGroup = listDataGroup;

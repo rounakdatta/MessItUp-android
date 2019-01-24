@@ -108,7 +108,7 @@ public class testActivity extends AppCompatActivity {
         listDataChild = new HashMap<>();
 
         // initializing the adapter object
-        expandableListViewAdapter = new ExpandableListViewAdapter(this, listDataGroup, listDataChild);
+//        expandableListViewAdapter = new ExpandableListViewAdapter(this, listDataGroup, listDataChild);
 
         // setting list adapter
         expandableListView.setAdapter(expandableListViewAdapter);
@@ -124,10 +124,10 @@ public class testActivity extends AppCompatActivity {
 
 
         // Adding group data
-        listDataGroup.add(getString(R.string.text_alcohol));
-        listDataGroup.add(getString(R.string.text_coffee));
-        listDataGroup.add(getString(R.string.text_pasta));
-        listDataGroup.add(getString(R.string.text_cold_drinks));
+        listDataGroup.add("AC");
+        listDataGroup.add("AC");
+        listDataGroup.add("AC");
+        listDataGroup.add("AC");
 
         // array of strings
         String[] array;
