@@ -8,6 +8,18 @@
     <string name="text_expanded">Expanded</string>
     <string name="text_collapsed">Collapsed</string>
 
+    <string name="breakfast_start_time">0730</string>
+    <string name="breakfast_end_time">0900</string>
+
+    <string name="lunch_start_time">1130</string>
+    <string name="lunch_end_time"></string>
+
+    <string name="snacks_start_time">1630</string>
+    <string name="snacks_end_time"></string>
+
+    <string name="dinner_start_time">1930</string>
+    <string name="dinner_end_time"></string>
+
 
     <string-array name="string_array_alcohol">
         <item>Vodka</item>

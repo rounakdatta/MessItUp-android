@@ -1,18 +1,36 @@
 package tk.rounakdatta.messitup;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
+import java.util.Date;
+
 public class SecondActivity extends AppCompatActivity {
     TextView tv;
     String uid;
+
+    int breakfast_start_time = 730;
+    int lunch_start_time = 1130;
+    int snacks_start_time = 1630;
+    int dinner_start_time = 1930;
+
+    int breakfast_end_time = 900;
+    int lunch_end_time = 1400;
+    int snacks_end_time = 1730;
+    int dinner_end_time = 2130;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +40,41 @@ public class SecondActivity extends AppCompatActivity {
         final SharedPreferences wowCookies = getApplicationContext().getSharedPreferences("wowCookies", 0);
         final SharedPreferences.Editor cookidator = wowCookies.edit();
 
+        Date d = new Date();
+        CharSequence nowTime  = DateFormat.format("HHmm", d.getTime());
+        int nowTimeValue = Integer.parseInt(nowTime.toString());
+
+        // feedback time calculation
+        String meal = "NULL";
+        if (nowTimeValue >= breakfast_start_time && nowTimeValue < lunch_start_time) {
+            meal = "Breakfast";
+        } else if (nowTimeValue >= lunch_start_time && nowTimeValue <= snacks_start_time) {
+            meal = "Lunch";
+        } else if (nowTimeValue >= snacks_start_time && nowTimeValue <= dinner_start_time) {
+            meal = "Snacks";
+        } else {
+            meal = "Dinner";
+        }
+
+        TextView feedbackTime = findViewById(R.id.feedbackTime);
+        feedbackTime.setText(meal);
+
+
+        // opinion time calculation
+        String opinionMeal = "NULL";
+        if (nowTimeValue >= breakfast_start_time && nowTimeValue < lunch_start_time) {
+            opinionMeal = "Lunch";
+        } else if (nowTimeValue >= lunch_start_time && nowTimeValue <= snacks_start_time) {
+            opinionMeal = "Snacks";
+        } else if (nowTimeValue >= snacks_start_time && nowTimeValue <= dinner_start_time) {
+            opinionMeal = "Dinner";
+        } else {
+            opinionMeal = "Breakfast";
+        }
+
+        TextView opinionTime = findViewById(R.id.opinionTime);
+        opinionTime.setText(opinionMeal);
+
         uid = wowCookies.getString("uid", "null");
 
         // this is the dashboard activity
@@ -30,16 +83,6 @@ public class SecondActivity extends AppCompatActivity {
         String s = extra.getString("WelcomeHome");
         tv = findViewById(R.id.textView);
         tv.setText(s);
-
-
-        String[] arraySpinner = new String[] {
-                "Breakfast", "Lunch", "Snacks", "Dinner"
-        };
-        Spinner mealChooser = (Spinner) findViewById(R.id.mealTime);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, arraySpinner);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mealChooser.setAdapter(adapter);
 
         // feedback screen
         Button feedbackButton = findViewById(R.id.feedbackButton);
@@ -71,8 +114,8 @@ public class SecondActivity extends AppCompatActivity {
                 Intent notGoingIntent = new Intent(getApplicationContext(), NotGoing.class);
                 notGoingIntent.putExtra("notGoingMessage", "Please confirm why you wont be going");
 
-                Spinner mealTypeChooser = (Spinner) findViewById(R.id.mealTime);
-                String myMeal = mealTypeChooser.getItemAtPosition(mealTypeChooser.getSelectedItemPosition()).toString();
+                TextView opinionText = findViewById(R.id.opinionTime);
+                String myMeal = opinionText.getText().toString();
                 notGoingIntent.putExtra("notGoingMealType", myMeal);
                 startActivityForResult(notGoingIntent, 4000);
             }
@@ -88,10 +131,13 @@ public class SecondActivity extends AppCompatActivity {
 
                 String[] foodParams = data.getStringArrayExtra("foodParams");
 
+                TextView feedbackText = findViewById(R.id.feedbackTime);
+                String myMeal = feedbackText.getText().toString();
+                System.out.println(myMeal);
 
                 String fbResponse;
                 try {
-                    String feedbackRequest = "uid=" + uid + "&foodQuality=" + foodParams[0] + "&foodAvailability=" + foodParams[1] + "&foodTaste=" + foodParams[2];
+                    String feedbackRequest = "uid=" + uid + "&foodQuality=" + foodParams[0] + "&foodAvailability=" + foodParams[1] + "&foodTaste=" + foodParams[2] + "&mealType=" + myMeal;
                     System.out.println(feedbackRequest);
                     HttpPostRequest fbhttp = new HttpPostRequest();
                     fbResponse = fbhttp.execute("https://dearestdaringapplescript--rounak.repl.co/user/feedback/mess/food", feedbackRequest).get();
@@ -109,8 +155,8 @@ public class SecondActivity extends AppCompatActivity {
                     System.out.println("Came back!");
                     System.out.println(data.getStringExtra("timeOfMess"));
 
-                    Spinner mealChooser = (Spinner) findViewById(R.id.mealTime);
-                    String myMeal = mealChooser.getItemAtPosition(mealChooser.getSelectedItemPosition()).toString();
+                    TextView opinionText = findViewById(R.id.opinionTime);
+                    String myMeal = opinionText.getText().toString();
 
                     String mealResponse;
 
