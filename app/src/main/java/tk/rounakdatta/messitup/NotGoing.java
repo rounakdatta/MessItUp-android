@@ -31,9 +31,11 @@ public class NotGoing extends AppCompatActivity {
         final SharedPreferences.Editor cookidator = wowCookies.edit();
 
         uid = wowCookies.getString("uid", "null");
+        Bundle extra = getIntent().getExtras();
+        final String whichMealNotGoing = extra.getString("notGoingMealType");
 
         String[] arraySpinner = new String[] {
-                "I'm eating out today", "I'll skip this meal", "I rarely eat at mess", "I do not like today's dinner"
+                "I'm eating out today", "I'll skip this meal", "I rarely eat at mess", "I do not like today's " + whichMealNotGoing
         };
 
         final Spinner reasonChooser = (Spinner) findViewById(R.id.notGoingReason);
@@ -49,8 +51,6 @@ public class NotGoing extends AppCompatActivity {
             public void onClick(View v) {
 
                 String myReason = reasonChooser.getItemAtPosition(reasonChooser.getSelectedItemPosition()).toString();
-                Bundle extra = getIntent().getExtras();
-                String whichMealNotGoing = extra.getString("notGoingMealType");
 
                 String mealResponse;
 
@@ -60,6 +60,9 @@ public class NotGoing extends AppCompatActivity {
                     HttpPostRequest mealhttp = new HttpPostRequest();
                     mealResponse = mealhttp.execute("https://dearestdaringapplescript--rounak.repl.co/user/meal/opinion", mealRequest).get();
                     System.out.println(mealResponse);
+
+                    cookidator.putString("opinionGivenForMeal", whichMealNotGoing);
+                    cookidator.commit();
 
                     Intent data = new Intent();
                     data.putExtra("notGoingConfirm", "true");

@@ -22,6 +22,9 @@ public class SecondActivity extends AppCompatActivity {
     TextView tv;
     String uid;
 
+    SharedPreferences wowCookies;
+    SharedPreferences.Editor cookidator;
+
     int breakfast_start_time = 730;
     int lunch_start_time = 1130;
     int snacks_start_time = 1630;
@@ -37,8 +40,8 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        final SharedPreferences wowCookies = getApplicationContext().getSharedPreferences("wowCookies", 0);
-        final SharedPreferences.Editor cookidator = wowCookies.edit();
+        wowCookies = getApplicationContext().getSharedPreferences("wowCookies", 0);
+        cookidator = wowCookies.edit();
 
         Date d = new Date();
         CharSequence nowTime  = DateFormat.format("HHmm", d.getTime());
@@ -60,6 +63,17 @@ public class SecondActivity extends AppCompatActivity {
         feedbackTime.setText(meal);
 
 
+
+        // should we enable / disable the feedback button
+        String whatIsMyLastFeedback = wowCookies.getString("feedbackGivenForMeal", "null");
+        Button theFeedbackButton = findViewById(R.id.feedbackButton);
+        if (whatIsMyLastFeedback.equals(meal)) {
+            theFeedbackButton.setEnabled(false);
+        } else {
+            theFeedbackButton.setEnabled(true);
+        }
+
+
         // opinion time calculation
         String opinionMeal = "NULL";
         if (nowTimeValue >= breakfast_start_time && nowTimeValue < lunch_start_time) {
@@ -75,10 +89,22 @@ public class SecondActivity extends AppCompatActivity {
         TextView opinionTime = findViewById(R.id.opinionTime);
         opinionTime.setText(opinionMeal);
 
+        // should we enable / disable the going / not going button
+        String whatIsMyLastOpinion = wowCookies.getString("opinionGivenForMeal", "null");
+        Button goingButton = findViewById(R.id.goingButton);
+        Button notGoingButton = findViewById(R.id.notGoingButton);
+        if (whatIsMyLastOpinion.equals(opinionTime.getText())) {
+            goingButton.setEnabled(false);
+            notGoingButton.setEnabled(false);
+        } else {
+            goingButton.setEnabled(true);
+            notGoingButton.setEnabled(true);
+        }
+
+
         uid = wowCookies.getString("uid", "null");
 
         // this is the dashboard activity
-
         Bundle extra = getIntent().getExtras();
         String s = extra.getString("WelcomeHome");
         tv = findViewById(R.id.textView);
@@ -142,6 +168,10 @@ public class SecondActivity extends AppCompatActivity {
                     HttpPostRequest fbhttp = new HttpPostRequest();
                     fbResponse = fbhttp.execute("https://dearestdaringapplescript--rounak.repl.co/user/feedback/mess/food", feedbackRequest).get();
                     System.out.println(fbResponse);
+
+                    cookidator.putString("feedbackGivenForMeal", myMeal);
+                    cookidator.commit();
+
                 } catch (Exception e) {
                     System.out.println(e);
                 }
@@ -170,14 +200,55 @@ public class SecondActivity extends AppCompatActivity {
                         System.out.println(ex);
                     }
 
+                    TextView opinionTime = findViewById(R.id.opinionTime);
+                    cookidator.putString("opinionGivenForMeal", (String) opinionTime.getText());
+                    cookidator.commit();
+
+                    // should we enable / disable the going / not going button
+                    String whatIsMyLastOpinion = wowCookies.getString("opinionGivenForMeal", "null");
+                    Button goingButton = findViewById(R.id.goingButton);
+                    Button notGoingButton = findViewById(R.id.notGoingButton);
+                    if (whatIsMyLastOpinion.equals(opinionTime.getText())) {
+                        goingButton.setEnabled(false);
+                        notGoingButton.setEnabled(false);
+                    } else {
+                        goingButton.setEnabled(true);
+                        notGoingButton.setEnabled(true);
+                    }
+
 
                 }
             } catch (Exception e2) {
                 if (data.getStringExtra("notGoingConfirm").equals("true"))  {
                     System.out.println("Yaaay");
+
+                    // should we enable / disable the going / not going button
+                    String whatIsMyLastOpinion = wowCookies.getString("opinionGivenForMeal", "null");
+                    Button goingButton = findViewById(R.id.goingButton);
+                    Button notGoingButton = findViewById(R.id.notGoingButton);
+                    TextView opinionTime = findViewById(R.id.opinionTime);
+                    if (whatIsMyLastOpinion.equals(opinionTime.getText())) {
+                        goingButton.setEnabled(false);
+                        notGoingButton.setEnabled(false);
+                    } else {
+                        goingButton.setEnabled(true);
+                        notGoingButton.setEnabled(true);
+                    }
+
                 }
             }
 
+        }
+
+        // should we enable / disable the feedback button
+        TextView feedbackTime = findViewById(R.id.feedbackTime);
+        String meal = (String) feedbackTime.getText();
+        String whatIsMyLastFeedback = wowCookies.getString("feedbackGivenForMeal", "null");
+        Button theFeedbackButton = findViewById(R.id.feedbackButton);
+        if (whatIsMyLastFeedback.equals(meal)) {
+            theFeedbackButton.setEnabled(false);
+        } else {
+            theFeedbackButton.setEnabled(true);
         }
 
     }

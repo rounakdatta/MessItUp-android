@@ -108,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
                     cookidator.remove("email");
                     cookidator.putBoolean("loggedIn", false);
 
+                    cookidator.remove("feedbackGivenForMeal");
+                    cookidator.remove("opinionGivenForMeal");
+
                     cookidator.commit();
 
                     findViewById(R.id.registerButton).setVisibility(View.VISIBLE);
@@ -146,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
 
         // userdashboard activity
         btnHome = findViewById(R.id.btnHome);
-        txtHome = findViewById(R.id.txtDisplay);
         btnHome.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
                 intent.putExtra("WelcomeHome",homePage);
                 startActivity(intent);
-                txtHome.setText("Button presses!");
 
 
             }
