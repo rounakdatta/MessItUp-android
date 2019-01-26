@@ -2,15 +2,21 @@ package tk.rounakdatta.messitup;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -166,30 +172,32 @@ public class TabFragment extends Fragment {
      */
     private void initListeners() {
 
-//        // ExpandableListView on child click listener
-//        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-//
-//            @Override
-//            public boolean onChildClick(ExpandableListView parent, View v,
-//                                        int groupPosition, int childPosition, long id) {
-//                Toast.makeText(
-//                        getApplicationContext(),
-//                        listDataGroup.get(groupPosition)
-//                                + " : "
-//                                + listDataChild.get(
-//                                listDataGroup.get(groupPosition)).get(
-//                                childPosition), Toast.LENGTH_SHORT)
-//                        .show();
-//                return false;
-//            }
-//        });
-//
+        // ExpandableListView on child click listener
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                Toast.makeText(
+                        getActivity().getApplicationContext(),
+                        listDataGroup.get(groupPosition)
+                                + " : "
+                                + listDataChild.get(
+                                listDataGroup.get(groupPosition)).get(
+                                childPosition), Toast.LENGTH_SHORT)
+                        .show();
+
+                return false;
+
+            }
+        });
+
 //        // ExpandableListView Group expanded listener
 //        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 //
 //            @Override
 //            public void onGroupExpand(int groupPosition) {
-//                Toast.makeText(getApplicationContext(),
+//                Toast.makeText(getActivity().getApplicationContext(),
 //                        listDataGroup.get(groupPosition) + " " + getString(R.string.text_collapsed),
 //                        Toast.LENGTH_SHORT).show();
 //            }
@@ -200,7 +208,7 @@ public class TabFragment extends Fragment {
 //
 //            @Override
 //            public void onGroupCollapse(int groupPosition) {
-//                Toast.makeText(getApplicationContext(),
+//                Toast.makeText(getActivity().getApplicationContext(),
 //                        listDataGroup.get(groupPosition) + " " + getString(R.string.text_collapsed),
 //                        Toast.LENGTH_SHORT).show();
 //
