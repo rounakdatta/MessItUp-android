@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_height="match_parent">
+
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/login_backdrop" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:id="@+id/logo"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="48dp"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:text="MessItUp"
+        android:typeface="monospace"
+        android:id="@+id/name"
+        android:textStyle="bold"
+        android:textSize="36sp"
+        android:layout_marginTop="15sp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#fff"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/name"
+        android:id="@+id/layout1"
+        android:padding="20dp">
+
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/registerButton"
+
+            android:layout_width="0dp"
+            android:layout_marginRight="2dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/submit_background"
+            android:text="Register"
+            android:textColor="#169BD7"
+            />
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_marginLeft="2dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/submit_background"
+            android:text="Login"
+            android:textColor="#169BD7"
+            />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/layout2"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/layout1"
+        android:padding="20dp">
+
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btnHome"
+
+            android:layout_width="0dp"
+            android:layout_marginRight="2dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/submit_background"
+            android:text="Home"
+            android:textColor="#169BD7"
+            />
+        <Button
+            android:id="@+id/todayMenu"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_marginLeft="2dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/submit_background"
+            android:text="Today's Menu"
+            android:textColor="#169BD7"
+            />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+
+        android:layout_below="@+id/layout2"
+        android:padding="20dp">
+
+
+        <Button
+
+            android:id="@+id/logoutButton"
+            android:layout_width="match_parent"
+            android:layout_marginRight="2dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/submit_background"
+            android:text="LogOut"
+            android:textColor="#169BD7"
+            />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

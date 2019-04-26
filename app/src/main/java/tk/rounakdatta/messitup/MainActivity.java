@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         final SharedPreferences wowCookies = getApplicationContext().getSharedPreferences("wowCookies", 0);
         final SharedPreferences.Editor cookidator = wowCookies.edit();
@@ -52,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         if (uid.length() == 28) {
             findViewById(R.id.registerButton).setVisibility(View.GONE);
             findViewById(R.id.loginButton).setVisibility(View.GONE);
-            findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
-            findViewById(R.id.btnHome).setVisibility(View.VISIBLE);
+           findViewById(R.id.logoutButton).setVisibility(View.VISIBLE);
+           findViewById(R.id.btnHome).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.registerButton).setVisibility(View.VISIBLE);
             findViewById(R.id.loginButton).setVisibility(View.VISIBLE);
